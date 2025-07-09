@@ -1,3 +1,7 @@
 .tr1{
   padding-top: 100px;
 }
+
+.notes-container{
+  height: calc(100vh - 20vh);
+}

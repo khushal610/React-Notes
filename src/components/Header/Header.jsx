@@ -31,9 +31,9 @@ function Header() {
 
   return (
     <>
-      <header className="flex h-20 bg-slate-300 items-center justify-around fixed w-full">
+      <header className="flex h-20 bg-slate-300 items-center justify-around fixed w-full z-20">
         <div className="logo flex items-center justify-center lg:w-4/12">
-          <h1 className="text-4xl">NOTES</h1>
+          <h1 className="text-4xl">REACT-NOTES</h1>
         </div>
         <div className="navigation lg:w-8/12 flex items-center justify-evenly gap-10">
           <nav>
@@ -41,7 +41,7 @@ function Header() {
               <li><NavLink to="/">Home</NavLink></li>
               <li><NavLink to="/about">About</NavLink></li>
               <li><NavLink to="/notes">Notes</NavLink></li>
-              {isLogin && <li><NavLink to="/">{name}</NavLink></li>}
+              {isLogin && <li><NavLink to="/profile">{name}</NavLink></li>}
             </ul>
           </nav>
           {isLogin ? (

@@ -8,6 +8,7 @@ import Registration from './components/Forms/Registration.jsx'
 import Login from './components/Forms/Login.jsx'
 import MyNotes from './components/MyNotes/MyNotes.jsx'
 import About from './components/About/About.jsx'
+import Profile from './components/User/Profile.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -17,13 +18,12 @@ const router = createBrowserRouter(
       <Route path='/login' element={<Login />} />
       <Route path='/notes' element={<MyNotes />} />
       <Route path='/about' element={<About />} />
+      <Route path='/profile' element={<Profile />} />
     </Route>
   )
 )
 
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <RouterProvider router={router} />
-  </StrictMode>,
+  <RouterProvider router={router} />
 )

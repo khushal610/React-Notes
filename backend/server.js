@@ -1,9 +1,11 @@
 const express = require('express');
 const cors = require('cors');
-const userModel = require('./models/user-model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const PORT = 3000;
+
+const userModel = require('./models/user-model');
+const noteModel = require('./models/note-model');
 
 const JWT_SECRET = "ferifj2o3yr87uedwijdfn3847yehrit3g438ydjcsihf8374huhuhwhe7f8834ihiideir";
 
@@ -67,13 +69,89 @@ app.post('/login-user',async(req,res) => {
         else{
             return res.status(400).send({ error:"Password is incorrect" });
         }
-
-
     } catch (error) {
         console.log(error);
     }
 })
 
+
+app.post('/get-current-user',async(req,res) => {
+    try {
+        const {email} = req.body
+        const checkUserExist = await userModel.findOne({ email });
+
+        if(!checkUserExist){
+            return res.status(400).send({ error:"User not found" });
+        }
+        return res.status(200).send({ data:checkUserExist });
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+
+app.post('/create-new-note', async (req, res) => {
+    try {
+        const { title, description, id } = req.body;
+
+        if (!title || !description || !id) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
+
+        const note = new noteModel({
+            title,
+            description,
+            user: id 
+        });
+
+        const savedNote = await note.save();
+        res.status(201).json({ status: "ok", data: savedNote });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error", error });
+    }
+});
+
+app.post('/user-specific-notes',async(req,res) => {
+    try {
+        const {id} = req.body
+        const getNotes = await noteModel.find({ user:id });
+
+        if(!getNotes){
+            return res.status(404).send({ error:"Notes not found" });
+        }
+        return res.status(200).send({ data:getNotes });
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+
+app.post('/delete-user-notes',async(req,res) => {
+    try {
+        const {noteID} = req.body
+        const deleteNote = await noteModel.deleteOne({ _id:noteID });
+        if(!deleteNote){
+            return res.status(400).send({ error:"Note not found" });
+        }
+        return res.status(200).send({ data:"note deleted",status:"ok" });
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+app.post('/update-user-notes',async(req,res) => {
+    try {
+        const { noteID,title,description } = req.body
+        const updateNote = await noteModel.updateOne({ _id:noteID },{$set:{title,description}});
+        if(!updateNote){
+            return res.status(400).send({ error:"Note not found" });
+        }
+        return res.status(200).send({ data:"note updated",status:"ok" });
+    } catch (error) {
+        console.log(error);
+    }
+})
 
 app.listen(PORT,() => {
     console.log(`Server listening to port no ${PORT}`);
