@@ -8,7 +8,7 @@
 </ul>
 
 <h3>Install dependency</h3>
-<h5>npm i <dependency-name> [to install dependency all at once (npm i <dependency-name> <dependency-name> <dependency-name>)  give space between <dependency-name>]</h5>
+<h5><pre>npm i <dependency-name> [to install dependency all at once (npm i <dependency-name> <dependency-name> <dependency-name>)  give space between <dependency-name>]</pre></h5>
 <h4>Frontend-dependency</h4>
 	<ul>
 		<li>axios</li>
